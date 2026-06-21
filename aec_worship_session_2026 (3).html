@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEC Worship Session 2026 - Interactive Program</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts (Inter & Montserrat) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar hiding for cleaner look */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+    }
+    .accordion-content.open {
+      max-height: 5000px;
+      transition: max-height 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300 overflow-x-hidden">
+
+  <div id="app" class="flex flex-col min-h-screen">
+    
+    <!-- Top Header -->
+    <header class="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-sm transition-all">
+      <div class="max-w-7xl mx-auto px-3 sm:px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
+          <div class="bg-indigo-600 text-white p-2 sm:p-2.5 rounded-xl shadow-md shadow-indigo-500/20 shrink-0">
+            <i class="fa-solid fa-cross text-base sm:text-lg"></i>
+          </div>
+          <div class="min-w-0">
+            <h1 class="font-display font-black tracking-tight text-sm sm:text-lg text-indigo-600 dark:text-indigo-400 truncate">APOCALYPSE ENGLISH CLUB</h1>
+            <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium truncate">Sunday, June 21st, 2026 • Worship Session</p>
+          </div>
+        </div>
+        
+        <div class="text-center md:text-right hidden md:block">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 animate-pulse">
+            « Speak faith, speak English »
+          </span>
+        </div>
+
+        <!-- Controls (Dark Mode, Text Resize) -->
+        <div class="flex items-center space-x-1 sm:space-x-2 bg-slate-100 dark:bg-slate-800 p-1 sm:p-1.5 rounded-lg text-sm shrink-0">
+          <button onclick="adjustFontSize(-1)" class="p-1 px-2 hover:bg-white dark:hover:bg-slate-700 rounded transition" title="Decrease font size">
+            <i class="fa-solid fa-minus text-[10px] sm:text-xs"></i> A
+          </button>
+          <button onclick="adjustFontSize(1)" class="p-1 px-2 hover:bg-white dark:hover:bg-slate-700 rounded transition" title="Increase font size">
+            A <i class="fa-solid fa-plus text-[10px] sm:text-xs"></i>
+          </button>
+          <div class="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+          <button onclick="toggleDarkMode()" class="p-1.5 rounded-md hover:bg-white dark:hover:bg-slate-700 transition" id="theme-btn">
+            <i class="fa-solid fa-moon text-indigo-600 dark:text-yellow-400"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Interactive Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- LEFT PANEL: Interactive Agenda & Program Timeline (lg:col-span-4) -->
+      <section class="lg:col-span-4 space-y-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-slate-200/60 dark:border-slate-800/60">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="font-display font-bold text-lg text-slate-800 dark:text-slate-100">Official Timeline</h2>
+            <button onclick="resetFilters()" class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold hover:underline hidden" id="reset-filter-btn">
+              Show All
+            </button>
+          </div>
+          
+          <!-- Program timeline items -->
+          <div class="space-y-2 relative before:absolute before:left-4 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
+            
+            <div onclick="selectProgramItem('spiritual')" id="prog-spiritual" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border-2 border-indigo-500/20 bg-indigo-50/40 dark:bg-indigo-950/20 hover:border-indigo-500 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-indigo-600 dark:bg-indigo-400 group-hover:scale-125 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 tracking-wider uppercase">09:30 am - 10:00 am</span>
+                <span class="text-[10px] bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-2 py-0.5 rounded-full font-semibold">7 Songs</span>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">Spiritual preparation</h3>
+            </div>
+
+            <div onclick="selectProgramItem('praise')" id="prog-praise" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-500 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">10:00 am - 10:30 am</span>
+                <span class="text-[10px] bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full font-semibold text-center">6 Songs</span>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">Praise and prayers</h3>
+            </div>
+
+            <div onclick="selectProgramItem('guest')" id="prog-guest" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-500 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">10:30 am - 10:45 am</span>
+                <i class="fa-solid fa-pen text-slate-300 dark:text-slate-600 text-[10px]"></i>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">Guest Speech</h3>
+            </div>
+
+            <div onclick="selectProgramItem('offering')" id="prog-offering" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-500 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">10:45 am - 11:00 am</span>
+                <i class="fa-solid fa-pen text-slate-300 dark:text-slate-600 text-[10px]"></i>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">Offering</h3>
+            </div>
+
+            <div onclick="selectProgramItem('sermon')" id="prog-sermon" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-500 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">11:00 am - 11:30 am</span>
+                <i class="fa-solid fa-pen text-slate-300 dark:text-slate-600 text-[10px]"></i>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">Sermon</h3>
+            </div>
+
+            <div onclick="selectProgramItem('testimonials')" id="prog-testimonials" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-500 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">11:40 am - 12:00 pm</span>
+                <i class="fa-solid fa-pen text-slate-300 dark:text-slate-600 text-[10px]"></i>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">Testimonials</h3>
+            </div>
+
+            <div onclick="selectProgramItem('aecshow')" id="prog-aecshow" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-500 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">12:10 pm - 12:40 pm</span>
+                <span class="text-[10px] bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300 px-2 py-0.5 rounded-full font-semibold">Play Script</span>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">AEC Show</h3>
+            </div>
+
+            <div onclick="selectProgramItem('staff')" id="prog-staff" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-500 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">12:50 pm - 01:00 pm</span>
+                <i class="fa-solid fa-pen text-slate-300 dark:text-slate-600 text-[10px]"></i>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">Staff Speech</h3>
+            </div>
+
+            <div onclick="selectProgramItem('ending')" id="prog-ending" class="program-card cursor-pointer relative pl-8 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all duration-200 group">
+              <div class="absolute left-[11px] top-5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-500 transition-all"></div>
+              <div class="flex justify-between items-start">
+                <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">01:10 pm - 01:20 pm</span>
+                <span class="text-[10px] bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded-full font-semibold">The Blessing</span>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800 dark:text-slate-100 mt-1">Ending prayer and blessing</h3>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: Content Area (lg:col-span-8) -->
+      <section class="lg:col-span-8 space-y-4">
+        
+        <!-- Search and filters -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 flex flex-col md:flex-row gap-3">
+          <div class="relative flex-grow">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 pointer-events-none">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input type="text" id="lyrics-search" oninput="searchLyrics()" placeholder="Search songs, lyrics, chords, voices..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+          </div>
+          
+          <div class="flex gap-2">
+            <button onclick="toggleAllAccordions(true)" class="flex-1 md:flex-none text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 font-semibold px-3 py-2 rounded-lg transition">
+              <i class="fa-solid fa-expand-arrows-alt mr-1"></i> Expand All
+            </button>
+            <button onclick="toggleAllAccordions(false)" class="flex-1 md:flex-none text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 font-semibold px-3 py-2 rounded-lg transition">
+              <i class="fa-solid fa-compress-arrows-alt mr-1"></i> Collapse All
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Content Header -->
+        <div class="flex items-center justify-between px-2">
+          <h3 class="font-display font-extrabold text-xl text-slate-800 dark:text-slate-100 flex items-center space-x-2">
+            <span id="block-icon" class="text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-circle-play mr-2"></i></span>
+            <span id="current-block-title">Spiritual preparation</span>
+          </h3>
+          <span id="songs-count-badge" class="text-xs bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold px-2.5 py-1 rounded-full">
+            7 Songs
+          </span>
+        </div>
+
+        <!-- Editable Note Panel (Hidden by default, shown for non-song sections) -->
+        <div id="editable-panel" class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col h-96">
+          <div class="bg-slate-50 dark:bg-slate-800/50 p-3 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-pen-to-square mr-1"></i> Session Notes</span>
+            <span class="text-[10px] bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-full"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Auto-saved</span>
+          </div>
+          <textarea id="editable-input" oninput="saveSectionDetails()" class="w-full h-full p-5 bg-transparent resize-none focus:outline-none text-slate-700 dark:text-slate-200 leading-relaxed font-sans" placeholder="Write down guest names, speech outlines, or key points here..."></textarea>
+        </div>
+
+        <!-- Dynamic Lyrics & Script Area -->
+        <div id="lyrics-container" class="space-y-4">
+          
+          <!-- ==============================================
+               SPIRITUAL PREPARATION LYRICS
+               ============================================== -->
+          <div class="song-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl overflow-hidden shadow-sm hover:shadow transition duration-200" data-session="spiritual">
+            <div onclick="toggleAccordion('song-air-breathe')" class="p-4 flex justify-between items-center cursor-pointer select-none bg-slate-50/50 dark:bg-slate-900/50">
+              <div class="space-y-1">
+                <span class="text-[10px] bg-indigo-600/10 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Devotion #1</span>
+                <h4 class="font-bold text-base md:text-lg text-slate-800 dark:text-slate-100">This Is The Air I Breathe</h4>
+                <p class="text-xs text-slate-400 dark:text-slate-500 font-medium">Hillsong Worship • Verse ➔ Chorus</p>
+              </div>
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-circle-chevron-down text-slate-400 transition-transform duration-200 text-lg" id="icon-song-air-breathe"></i>
+              </div>
+            </div>
+            
+            <div id="song-air-breathe" class="accordion-content">
+              <div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/30">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                  <div class="md:col-span-5 bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-100 dark:border-slate-800 space-y-3 h-fit text-sm">
+                    <span class="font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider text-xs block"><i class="fa-solid fa-sitemap mr-1.5"></i> Vocal Structure Flow</span>
+                    <div class="space-y-2 text-xs">
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-bold rounded">VERSE</span>
+                        <span class="text-slate-600 dark:text-slate-400">Unisson (Soft, prayerful atmosphere)</span>
+                      </div>
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-bold rounded">CHORUS</span>
+                        <span class="text-slate-600 dark:text-slate-400">Full Choir (Intense, emotional build-up)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:col-span-7 lyric-body space-y-4">
+                    <div>
+                      <h5 class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider mb-2">Verse</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-slate-200 dark:border-slate-800">This is the air I breathe
+This is the air I breathe
+Your holy presence
+Living in me
+
+This is my daily bread
+This is my daily bread
+Your very word
+Spoken to me</p>
+                    </div>
+                    <div>
+                      <h5 class="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-wider mb-2">Chorus</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-indigo-500/40 dark:border-indigo-400/30">And I....I'm desperate for you
+And I....I'm lost without you</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="song-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl overflow-hidden shadow-sm hover:shadow transition duration-200" data-session="spiritual">
+            <div onclick="toggleAccordion('song-agnus')" class="p-4 flex justify-between items-center cursor-pointer select-none bg-slate-50/50 dark:bg-slate-900/50">
+              <div class="space-y-1">
+                <span class="text-[10px] bg-indigo-600/10 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Devotion #2</span>
+                <h4 class="font-bold text-base md:text-lg text-slate-800 dark:text-slate-100">Agnus Dei</h4>
+                <p class="text-xs text-slate-400 dark:text-slate-500 font-medium">Michael W. Smith • Verse 1 ➔ Chorus ➔ Verse 1 ➔ Chorus 2</p>
+              </div>
+              <i class="fa-solid fa-circle-chevron-down text-slate-400 text-lg" id="icon-song-agnus"></i>
+            </div>
+            
+            <div id="song-agnus" class="accordion-content">
+              <div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/30">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                  <div class="md:col-span-5 bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-100 dark:border-slate-800 space-y-3 h-fit text-sm">
+                    <span class="font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider text-xs block"><i class="fa-solid fa-sitemap mr-1.5"></i> Vocal Structure Flow</span>
+                    <div class="space-y-2 text-xs">
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-bold rounded">VERSE 1</span>
+                        <span class="text-slate-600 dark:text-slate-400">Unisson</span>
+                      </div>
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-bold rounded">CHORUS 1</span>
+                        <span class="text-slate-600 dark:text-slate-400">Trio</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:col-span-7 lyric-body space-y-4">
+                    <div>
+                      <h5 class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider mb-2">Verse 1</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-slate-200 dark:border-slate-800">Alleluia, Alleluia
+For the Lord God Almighty reigns
+Alleluia, Alleluia
+For the Lord God Almighty reigns
+Alleluia</p>
+                    </div>
+                    <div>
+                      <h5 class="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-wider mb-2">Chorus 1 & 2</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-indigo-500/40 dark:border-indigo-400/30">Holy, Holy
+Are You Lord God, Almighty
+Worthy is the Lamb, worthy is the Lamb
+You are Holy, Holy
+Are You Lord God, Almighty
+Worthy is the Lamb, worthy is the Lamb
+Amen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==============================================
+               PRAISE AND PRAYERS LYRICS (10:00 AM)
+               ============================================== -->
+          <div class="song-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl overflow-hidden shadow-sm hover:shadow transition duration-200 hidden" data-session="praise">
+            <div onclick="toggleAccordion('song-trading')" class="p-4 flex justify-between items-center cursor-pointer select-none bg-slate-50/50 dark:bg-slate-900/50">
+              <div class="space-y-1">
+                <span class="text-[10px] bg-emerald-600/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Praise #1</span>
+                <h4 class="font-bold text-base md:text-lg text-slate-800 dark:text-slate-100">Trading My Sorrows</h4>
+                <p class="text-xs text-slate-400 dark:text-slate-500 font-medium">Israel & New Breed • High Energy Call-And-Response</p>
+              </div>
+              <i class="fa-solid fa-circle-chevron-down text-slate-400 text-lg" id="icon-song-trading"></i>
+            </div>
+            
+            <div id="song-trading" class="accordion-content">
+              <div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/30">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                  <div class="md:col-span-5 bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-100 dark:border-slate-800 space-y-3 h-fit text-sm">
+                    <span class="font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider text-xs block"><i class="fa-solid fa-sitemap mr-1.5"></i> Vocal Structure Flow</span>
+                    <div class="space-y-2 text-xs">
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-bold rounded">VERSE 1</span>
+                        <span class="text-slate-600 dark:text-slate-400">Unisson (Very joyful and expressive)</span>
+                      </div>
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-bold rounded">CHORUS</span>
+                        <span class="text-slate-600 dark:text-slate-400">Trio with heavy background vocal shouts</span>
+                      </div>
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300 font-bold rounded">POST-CHORUS</span>
+                        <span class="text-slate-600 dark:text-slate-400">Full Choir ("Yes Lord" loop with high energy)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:col-span-7 lyric-body space-y-4">
+                    <div>
+                      <h5 class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider mb-2">Verse 1</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-slate-200 dark:border-slate-800">I'm trading my sorrows
+And I'm trading my shame
+And I'm laying it down for the joy of the Lord
+Yeah, yeah, yeah, yeah, yeah, yeah, yeah
+
+And I'm trading my sickness
+And I'm trading my pain
+I'm laying it, laying it, laying it down for the joy of the Lord</p>
+                    </div>
+                    <div>
+                      <h5 class="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-wider mb-2">Chorus</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-indigo-500/40 dark:border-indigo-400/30">(I'm trading)
+I'm trading my sorrows (Trading my shame)
+I'm trading my shame (Laying it down)
+I'm laying it down for the joy of the Lord
+(Oh, trading my sickness and pain)
+
+I'm trading my sickness (Oh yeah)
+I'm trading my pain (Laying it down)
+I'm laying it down for the joy of the Lord</p>
+                    </div>
+                    <div>
+                      <h5 class="text-xs font-bold text-rose-500 dark:text-rose-400 uppercase tracking-wider mb-2">Post-Chorus</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-slate-200 dark:border-slate-800">(Say "Yes Lord")
+Yes Lord, yes Lord, yes, yes Lord (x2)
+Yes Lord, yes Lord, yes, yes Lord, Amen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==============================================
+               AEC SHOW SCRIPT (12:10 PM)
+               ============================================== -->
+          <div class="song-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl overflow-hidden shadow-md hidden" data-session="aecshow">
+            <div onclick="toggleAccordion('script-aec-show')" class="p-5 flex justify-between items-center cursor-pointer select-none bg-purple-50/50 dark:bg-purple-900/10">
+              <div class="space-y-1">
+                <span class="text-[10px] bg-purple-600/10 text-purple-700 dark:bg-purple-400/10 dark:text-purple-300 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Theater Play Script</span>
+                <h4 class="font-display font-black text-lg md:text-xl text-slate-800 dark:text-slate-100">From Struggle to Purpose</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium"><i class="fa-solid fa-masks-theater mr-1"></i> A story of faith, English, and perseverance.</p>
+              </div>
+              <i class="fa-solid fa-circle-chevron-down text-purple-400 text-xl" id="icon-script-aec-show"></i>
+            </div>
+            
+            <div id="script-aec-show" class="accordion-content">
+              <div class="p-0 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950">
+                <div class="grid grid-cols-1 md:grid-cols-12">
+                  
+                  <!-- Left side: Characters and Instructions -->
+                  <div class="md:col-span-4 bg-slate-50 dark:bg-slate-900 p-6 border-r border-slate-100 dark:border-slate-800 space-y-6">
+                    <div>
+                      <h5 class="font-display font-bold text-sm text-slate-800 dark:text-slate-100 mb-3 border-b border-slate-200 dark:border-slate-800 pb-2">Characters / Cast</h5>
+                      <ul class="space-y-3 text-sm">
+                        <li class="flex items-center space-x-2">
+                          <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                          <span class="font-bold text-slate-700 dark:text-slate-200 w-24">Narrator:</span>
+                          <span class="text-slate-500 dark:text-slate-400">Fandry</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                          <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                          <span class="font-bold text-slate-700 dark:text-slate-200 w-24">Student 1:</span>
+                          <span class="text-slate-500 dark:text-slate-400">Eddie (shy)</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                          <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+                          <span class="font-bold text-slate-700 dark:text-slate-200 w-24">Student 2:</span>
+                          <span class="text-slate-500 dark:text-slate-400">Holy (discouraged)</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                          <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                          <span class="font-bold text-slate-700 dark:text-slate-200 w-24">Bully 1:</span>
+                          <span class="text-slate-500 dark:text-slate-400">Sitraka</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                          <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+                          <span class="font-bold text-slate-700 dark:text-slate-200 w-24">Bully 2:</span>
+                          <span class="text-slate-500 dark:text-slate-400">Lahatra</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                          <span class="font-bold text-slate-700 dark:text-slate-200 w-24">AEC Member:</span>
+                          <span class="text-slate-500 dark:text-slate-400">Oméga</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                          <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                          <span class="font-bold text-slate-700 dark:text-slate-200 w-24">Teacher:</span>
+                          <span class="text-slate-500 dark:text-slate-400">Isaia</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                          <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+                          <span class="font-bold text-slate-700 dark:text-slate-200 w-24">Extras:</span>
+                          <span class="text-slate-500 dark:text-slate-400">Club Members, HR</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h5 class="font-display font-bold text-sm text-slate-800 dark:text-slate-100 mb-3 border-b border-slate-200 dark:border-slate-800 pb-2">Final Tips</h5>
+                      <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400 list-disc pl-4">
+                        <li>Let students pause for laughter (very important!)</li>
+                        <li>Use body language for humor (faces, reactions)</li>
+                        <li>Add background music between acts</li>
+                        <li>Keep energy high during club scenes</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <!-- Right side: The Script -->
+                  <div class="md:col-span-8 p-6 lg:p-8 lyric-body text-base space-y-6">
+                    
+                    <!-- Act 1 -->
+                    <div class="text-center mb-6">
+                      <h3 class="font-black text-xl text-slate-800 dark:text-slate-100 uppercase tracking-widest">Act 1: Struggle</h3>
+                      <p class="text-xs text-slate-400">(≈5 min)</p>
+                    </div>
+
+                    <div class="text-center italic text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-800">
+                      (Classroom. Students chatting loudly.)
+                    </div>
+
+                    <div class="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-4 rounded-r-xl shadow-sm my-4">
+                      <span class="font-bold text-purple-700 dark:text-purple-300 flex items-center mb-1 text-sm"><i class="fa-solid fa-microphone-lines mr-2"></i> Narrator Fandry</span>
+                      <p class="text-slate-700 dark:text-slate-200 italic font-medium">In a public high school, two students are trying their best... but life is not easy.</p>
+                    </div>
+
+                    <p><span class="font-bold text-rose-600 dark:text-rose-400">Sitraka</span> <span class="text-slate-400 italic text-sm">(looking at Eddie)</span>: Hey... is that your uniform or your pajama collection?</p>
+                    <p><span class="font-bold text-orange-600 dark:text-orange-400">Lahatra</span>: Maybe it's "vintage"... from 2010!</p>
+                    
+                    <div class="text-center italic text-sm text-slate-400 py-1">(Students laugh.)</div>
+
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span> <span class="text-slate-400 italic text-sm">(whispering)</span>: If this is fashion... we are very fashionable.</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span> <span class="text-slate-400 italic text-sm">(small smile)</span>: Yes... very consistent fashion.</p>
+
+                    <div class="text-center italic text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-800 my-2">
+                      (Teacher Isaia enters)
+                    </div>
+
+                    <p><span class="font-bold text-indigo-600 dark:text-indigo-400">Teacher Isaia</span>: Today, we practice English! Who is ready?</p>
+                    <div class="text-center italic text-sm text-slate-400 py-1">(Everyone suddenly looks at their desk)</div>
+                    <p><span class="font-bold text-indigo-600 dark:text-indigo-400">Teacher Isaia</span>: Ah, I see... all of you became very shy today. Eddie, try please.</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span> <span class="text-slate-400 italic text-sm">(nervous)</span>: My name is Eddie ... I like... study...</p>
+                    <p><span class="font-bold text-rose-600 dark:text-rose-400">Sitraka</span> <span class="text-slate-400 italic text-sm">(mocking)</span>: "My name is Eddiiiiiiiie..."</p>
+                    <p><span class="font-bold text-indigo-600 dark:text-indigo-400">Teacher Isaia</span> <span class="text-slate-400 italic text-sm">(firm)</span>: Sitraka, you laugh... but you didn't volunteer.</p>
+                    <div class="text-center italic text-sm text-slate-400 py-1">(Class: "Oooh!")</div>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span> <span class="text-slate-400 italic text-sm">(quietly to Eddie)</span>: At least you tried.</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span>: Yes... but my English is running away from me.</p>
+
+                    <!-- Act 2 -->
+                    <div class="text-center mb-6 mt-10 border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h3 class="font-black text-xl text-slate-800 dark:text-slate-100 uppercase tracking-widest">Act 2: Opportunity</h3>
+                      <p class="text-xs text-slate-400">(≈4-5 min)</p>
+                    </div>
+
+                    <div class="text-center italic text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-800">
+                      (Outside school. Holy and Eddie talking.)
+                    </div>
+
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: Maybe we should stop trying English...</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span>: Yes... English and I are not friends.</p>
+
+                    <div class="text-center italic text-sm text-slate-400 py-1">(Oméga enters, cheerful)</div>
+
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: Hi! I heard you in class.</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span> <span class="text-slate-400 italic text-sm">(worried)</span>: You... also want to laugh?</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: No! I want to invite you.</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: Invite us... to what?</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: The Apocalypse English Club!</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span>: We are beginners.</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: Perfect. Beginners are my favorite.</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: Why?</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: Because they don't argue—they just learn!</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span>: Is it difficult?</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: Sometimes.</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: Is it fun?</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: Always.</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span>: Is there homework?</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span> <span class="text-slate-400 italic text-sm">(pause)</span>: ... Let's not talk about that now.</p>
+                    
+                    <div class="text-center italic text-sm text-slate-400 py-1">(They laugh a little)</div>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: Okay... we will try.</p>
+
+
+                    <!-- Act 3 -->
+                    <div class="text-center mb-6 mt-10 border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h3 class="font-black text-xl text-slate-800 dark:text-slate-100 uppercase tracking-widest">Act 3: Growth</h3>
+                      <p class="text-xs text-slate-400">(≈6-7 min)</p>
+                    </div>
+
+                    <div class="text-center italic text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-800">
+                      (English Club setting — fun atmosphere)
+                    </div>
+
+                    <p><span class="font-bold text-slate-600 dark:text-slate-300">All</span>: Welcome!</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: Rule number one: Speak English!</p>
+                    <p><span class="font-bold text-slate-600 dark:text-slate-300">Club Member</span>: Rule number two: Don't be afraid!</p>
+                    <p><span class="font-bold text-slate-600 dark:text-slate-300">Another Member</span>: Rule number three: If you are afraid... see rule number two!</p>
+                    
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span> <span class="text-slate-400 italic text-sm">(trying)</span>: Hello... my name is Eddie... I want to improve my English.</p>
+                    <p><span class="font-bold text-slate-600 dark:text-slate-300">Club Members</span> <span class="text-slate-400 italic text-sm">(clapping)</span>: Yesss!</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: I am very boring—</p>
+                    <div class="text-center italic text-sm text-slate-400 py-1">(Everyone laughs gently)</div>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: No no! You are bored, not boring.</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: Ah... good. I don't want to be boring.</p>
+
+                    <div class="text-center italic text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-800 my-4">
+                      (At the end of the English club — Faith moment — gentle and respectful)
+                    </div>
+
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: We also share about God here.</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: God cares about us?</p>
+                    <p><span class="font-bold text-amber-600 dark:text-amber-400">Oméga</span>: Yes. Even when others laugh at you.</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span> <span class="text-slate-400 italic text-sm">(softly)</span>: Then... I want to know Him.</p>
+
+                    <div class="text-center italic text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-800 my-4">
+                      (Back to school)
+                    </div>
+
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span> <span class="text-slate-400 italic text-sm">(confident now)</span>: Good morning, teacher. I just want to tell you that I've joined an English Club lately and I'm gaining confidence in speaking English.</p>
+                    <p><span class="font-bold text-indigo-600 dark:text-indigo-400">Teacher Isaia</span> <span class="text-slate-400 italic text-sm">(impressed)</span>: Excellent, Eddie! Big improvement!</p>
+                    <p><span class="font-bold text-rose-600 dark:text-rose-400">Sitraka</span> <span class="text-slate-400 italic text-sm">(to Lahatra)</span>: What is happening? Did they eat a dictionary?</p>
+                    <p><span class="font-bold text-orange-600 dark:text-orange-400">Lahatra</span>: Maybe English is now inside them...</p>
+
+                    <div class="text-center italic text-sm text-slate-400 py-1">(Short transition - time passing)</div>
+
+                    <div class="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-4 rounded-r-xl shadow-sm my-4">
+                      <span class="font-bold text-purple-700 dark:text-purple-300 flex items-center mb-1 text-sm"><i class="fa-solid fa-microphone-lines mr-2"></i> Narrator Fandry</span>
+                      <p class="text-slate-700 dark:text-slate-200 italic font-medium">Months passed... then years.</p>
+                    </div>
+
+                    <div class="text-center italic text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-800">
+                      (At the office of the teacher)
+                    </div>
+
+                    <p><span class="font-bold text-indigo-600 dark:text-indigo-400">Teacher Isaia</span> <span class="text-slate-400 italic text-sm">(excited)</span>: Congratulations! You both got scholarships!</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: Are you serious??</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span>: Wait... is this a dream?</p>
+                    <p><span class="font-bold text-indigo-600 dark:text-indigo-400">Teacher Isaia</span>: If it is, don't wake up!</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span> & <span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span> <span class="text-slate-400 italic text-sm">(giving each other a high five)</span>: Congratulations!</p>
+
+
+                    <!-- Act 4 -->
+                    <div class="text-center mb-6 mt-10 border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h3 class="font-black text-xl text-slate-800 dark:text-slate-100 uppercase tracking-widest">Act 4: Success & Forgiveness</h3>
+                      <p class="text-xs text-slate-400">(≈5-6 min)</p>
+                    </div>
+
+                    <div class="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-4 rounded-r-xl shadow-sm my-4">
+                      <span class="font-bold text-purple-700 dark:text-purple-300 flex items-center mb-1 text-sm"><i class="fa-solid fa-microphone-lines mr-2"></i> Narrator Fandry</span>
+                      <p class="text-slate-700 dark:text-slate-200 italic font-medium">Three years later... they come back.</p>
+                    </div>
+
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: We studied hard.</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span>: Now let's help others.</p>
+
+                    <div class="text-center italic text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 py-2 rounded-lg border border-dashed border-slate-200 dark:border-slate-800 my-4">
+                      (Office setting)
+                    </div>
+
+                    <p><span class="font-bold text-slate-600 dark:text-slate-300">HR Assistant</span>: Next applicants: Sitraka and Lahatra.</p>
+                    
+                    <div class="text-center italic text-sm text-slate-400 py-1">(They enter... freeze when they see them)</div>
+
+                    <p><span class="font-bold text-rose-600 dark:text-rose-400">Sitraka</span>: Wait... is this... real life?</p>
+                    <p><span class="font-bold text-orange-600 dark:text-orange-400">Lahatra</span>: I think we are in trouble.</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span> <span class="text-slate-400 italic text-sm">(calm)</span>: Please sit.</p>
+                    
+                    <div class="text-center italic text-sm text-slate-400 py-1">(Awkward silence)</div>
+
+                    <p><span class="font-bold text-rose-600 dark:text-rose-400">Sitraka</span>: We are... sorry.</p>
+                    <p><span class="font-bold text-orange-600 dark:text-orange-400">Lahatra</span>: Very sorry... like... very very sorry.</p>
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span> <span class="text-slate-400 italic text-sm">(smiling)</span>: We remember everything.</p>
+                    
+                    <div class="text-center italic text-sm text-slate-400 py-1">(Pause... tension)</div>
+
+                    <p><span class="font-bold text-blue-600 dark:text-blue-400">Eddie</span>: But we choose to forgive.</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span>: Everyone can change... like us.</p>
+                    <p><span class="font-bold text-rose-600 dark:text-rose-400">Sitraka</span> <span class="text-slate-400 italic text-sm">(relieved)</span>: Thank you...</p>
+                    <p><span class="font-bold text-orange-600 dark:text-orange-400">Lahatra</span> <span class="text-slate-400 italic text-sm">(trying to joke)</span>: So... do we get the job?</p>
+                    <p><span class="font-bold text-teal-600 dark:text-teal-400">Holy</span> <span class="text-slate-400 italic text-sm">(smiling)</span>: Let's start with the interview first.</p>
+
+                    <div class="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-5 rounded-r-xl shadow-md my-8">
+                      <span class="font-bold text-purple-700 dark:text-purple-300 flex items-center mb-2"><i class="fa-solid fa-microphone-lines mr-2"></i> Narrator Fandry</span>
+                      <p class="text-slate-800 dark:text-slate-100 italic font-medium text-lg text-center">From fear... to confidence.<br>From rejection... to purpose.</p>
+                    </div>
+
+                    <p class="text-center font-black text-2xl text-slate-800 dark:text-slate-100 uppercase tracking-widest"><span class="text-indigo-600 dark:text-indigo-400">All together:</span><br>Never give up!</p>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ==============================================
+               ENDING PRAYER & BLESSING LYRICS (01:10 PM)
+               ============================================== -->
+          <div class="song-card bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl overflow-hidden shadow-sm hover:shadow transition duration-200 hidden" data-session="ending">
+            <div onclick="toggleAccordion('song-blessing')" class="p-4 flex justify-between items-center cursor-pointer select-none bg-slate-50/50 dark:bg-slate-900/50">
+              <div class="space-y-1">
+                <span class="text-[10px] bg-amber-600/10 text-amber-600 dark:bg-amber-400/10 dark:text-amber-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Ending Prayer Blessing</span>
+                <h4 class="font-bold text-base md:text-lg text-slate-800 dark:text-slate-100">The Blessing</h4>
+                <p class="text-xs text-slate-400 dark:text-slate-500 font-medium">Kari Jobe • Blessing ➔ Chorus 1 ➔ Chorus 2</p>
+              </div>
+              <i class="fa-solid fa-circle-chevron-down text-slate-400 text-lg" id="icon-song-blessing"></i>
+            </div>
+            
+            <div id="song-blessing" class="accordion-content">
+              <div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/30">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                  <div class="md:col-span-5 bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-100 dark:border-slate-800 space-y-3 h-fit text-sm">
+                    <span class="font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider text-xs block"><i class="fa-solid fa-sitemap mr-1.5"></i> Vocal Structure Flow</span>
+                    <div class="space-y-2 text-xs">
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-bold rounded">BLESSING</span>
+                        <span class="text-slate-600 dark:text-slate-400">Unisson (Calm, prayerful)</span>
+                      </div>
+                      <div class="flex items-center space-x-2 p-1.5 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
+                        <span class="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-bold rounded">CHORUS 1</span>
+                        <span class="text-slate-600 dark:text-slate-400">Choeur Trio ("Amen")</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:col-span-7 lyric-body space-y-4">
+                    <div>
+                      <h5 class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider mb-2">Main Blessing</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-slate-200 dark:border-slate-800">The Lord bless you and keep you
+Make His face shine upon you and be gracious to you
+The Lord turn His face toward you
+And give you peace</p>
+                    </div>
+                    <div>
+                      <h5 class="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-wider mb-2">Chorus 1</h5>
+                      <p class="whitespace-pre-line leading-relaxed pl-3 border-l-2 border-indigo-500/40 dark:border-indigo-400/30">Amen, amen, amen
+Amen, amen, amen</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Footer info inside card layout -->
+        <div class="bg-indigo-600 text-white rounded-2xl p-6 text-center space-y-2 shadow-lg shadow-indigo-500/10 mt-8">
+          <p class="font-display font-bold text-base">Apocalypse English Club Thanks You For Your Presence!</p>
+          <p class="text-xs text-indigo-200">Conducteur de culte informatisé • Worship Session • Antananarivo, Madagascar</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Interactive JavaScript Engine -->
+  <script>
+    // System Theme / Dark Mode detector (Secured for strict mobile HTML viewers)
+    let isDarkMode = false;
+    try {
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        isDarkMode = true;
+      }
+    } catch(e) {
+      // LocalStorage blocked by mobile viewer apps
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        isDarkMode = true;
+      }
+    }
+
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    // Editable Details State Management (Saves notes offline safely)
+    let sessionData = {};
+    try {
+      sessionData = JSON.parse(localStorage.getItem('aec_session_data')) || {};
+    } catch(e) {
+      console.warn("Local storage is disabled or unavailable. Notes won't be saved on refresh.");
+    }
+
+    // Saves typed text directly into LocalStorage safely
+    function saveSectionDetails() {
+      const input = document.getElementById('editable-input');
+      const key = input.dataset.currentKey;
+      if (key) {
+        sessionData[key] = input.value;
+        try {
+          localStorage.setItem('aec_session_data', JSON.stringify(sessionData));
+        } catch(e) {}
+      }
+    }
+
+    // Dark mode toggle logic
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        try { localStorage.setItem('theme', 'light'); } catch(e) {}
+        document.getElementById('theme-btn').innerHTML = '<i class="fa-solid fa-moon text-indigo-600"></i>';
+      } else {
+        html.classList.add('dark');
+        try { localStorage.setItem('theme', 'dark'); } catch(e) {}
+        document.getElementById('theme-btn').innerHTML = '<i class="fa-solid fa-sun text-yellow-400"></i>';
+      }
+    }
+
+    // Font resizing state
+    let baseFontSize = 16; 
+    function adjustFontSize(dir) {
+      baseFontSize += dir * 2;
+      if (baseFontSize < 12) baseFontSize = 12;
+      if (baseFontSize > 28) baseFontSize = 28;
+      
+      const bodies = document.querySelectorAll('.lyric-body p');
+      bodies.forEach(body => {
+        body.style.fontSize = baseFontSize + 'px';
+      });
+    }
+
+    // Selected session filter
+    let currentFilter = 'spiritual'; 
+
+    function selectProgramItem(sessionKey) {
+      currentFilter = sessionKey;
+      
+      // Update active state class in program list sidebar
+      document.querySelectorAll('.program-card').forEach(card => {
+        card.classList.remove('border-indigo-500', 'bg-indigo-50/40', 'dark:bg-indigo-950/20', 'border-2');
+        card.classList.add('border-slate-200', 'dark:border-slate-800');
+        const bullet = card.querySelector('.absolute');
+        if (bullet) {
+          bullet.classList.remove('bg-indigo-600', 'dark:bg-indigo-400');
+          bullet.classList.add('bg-slate-300', 'dark:bg-slate-700');
+        }
+      });
+
+      const activeCard = document.getElementById(`prog-${sessionKey}`);
+      if (activeCard) {
+        activeCard.classList.remove('border-slate-200', 'dark:border-slate-800');
+        activeCard.classList.add('border-indigo-500', 'bg-indigo-50/40', 'dark:bg-indigo-950/20', 'border-2');
+        const bullet = activeCard.querySelector('.absolute');
+        if (bullet) {
+          bullet.classList.remove('bg-slate-300', 'dark:bg-slate-700');
+          bullet.classList.add('bg-indigo-600', 'dark:bg-indigo-400');
+        }
+      }
+
+      // Update titles dynamically in the viewer
+      const titleEl = document.getElementById('current-block-title');
+      const badgeEl = document.getElementById('songs-count-badge');
+      const iconEl = document.getElementById('block-icon');
+      const editablePanel = document.getElementById('editable-panel');
+      const editableInput = document.getElementById('editable-input');
+
+      // Clear the search bar
+      document.getElementById('lyrics-search').value = '';
+
+      let blockTitle = "";
+      let songCount = 0;
+      let iconMarkup = "";
+      let isEditable = false;
+
+      switch(sessionKey) {
+        case 'spiritual':
+          blockTitle = "Spiritual preparation";
+          songCount = 7;
+          iconMarkup = '<i class="fa-solid fa-circle-play mr-2"></i>';
+          break;
+        case 'praise':
+          blockTitle = "Praise and prayers";
+          songCount = 6;
+          iconMarkup = '<i class="fa-solid fa-fire mr-2 text-rose-500"></i>';
+          break;
+        case 'ending':
+          blockTitle = "Ending prayer and blessing";
+          songCount = 1;
+          iconMarkup = '<i class="fa-solid fa-hands-praying mr-2 text-amber-500"></i>';
+          break;
+        case 'guest':
+          blockTitle = "Guest speech";
+          iconMarkup = '<i class="fa-solid fa-microphone mr-2"></i>';
+          isEditable = true;
+          break;
+        case 'offering':
+          blockTitle = "Offering session";
+          iconMarkup = '<i class="fa-solid fa-hand-holding-dollar mr-2"></i>';
+          isEditable = true;
+          break;
+        case 'sermon':
+          blockTitle = "Sermon (Preaching)";
+          iconMarkup = '<i class="fa-solid fa-book-bible mr-2"></i>';
+          isEditable = true;
+          break;
+        case 'testimonials':
+          blockTitle = "Testimonials";
+          iconMarkup = '<i class="fa-solid fa-comments mr-2"></i>';
+          isEditable = true;
+          break;
+        case 'staff':
+          blockTitle = "Staff speech";
+          iconMarkup = '<i class="fa-solid fa-users mr-2"></i>';
+          isEditable = true;
+          break;
+        case 'aecshow':
+          blockTitle = "AEC Show Theater Play";
+          iconMarkup = '<i class="fa-solid fa-masks-theater mr-2 text-purple-500"></i>';
+          break;
+      }
+
+      titleEl.innerHTML = blockTitle;
+      iconEl.innerHTML = iconMarkup;
+      
+      // Handle the top right badge logic
+      if (songCount > 0) {
+        badgeEl.textContent = `${songCount} Song${songCount > 1 ? 's' : ''}`;
+        badgeEl.className = "text-xs bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold px-2.5 py-1 rounded-full";
+      } else if (sessionKey === 'aecshow') {
+        badgeEl.textContent = `1 Script`;
+        badgeEl.className = "text-xs bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300 font-bold px-2.5 py-1 rounded-full";
+      } else {
+        badgeEl.classList.add('hidden');
+      }
+
+      // Handle the editable panel visibility
+      if (isEditable) {
+        editablePanel.classList.remove('hidden');
+        editableInput.dataset.currentKey = sessionKey;
+        editableInput.value = sessionData[sessionKey] || ''; 
+      } else {
+        editablePanel.classList.add('hidden');
+      }
+
+      // Filter song DOM nodes
+      const songCards = document.querySelectorAll('.song-card');
+      songCards.forEach(card => {
+        if (card.getAttribute('data-session') === sessionKey) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      
+      // Auto expand the first element of the new active filter
+      const firstVisibleSong = document.querySelector(`.song-card[data-session="${sessionKey}"]:not(.hidden) .accordion-content`);
+      if (firstVisibleSong) {
+        toggleAllAccordions(false);
+        const songId = firstVisibleSong.id;
+        toggleAccordion(songId);
+      }
+
+      // MOBILE UX FIX: Auto-scroll to content area on phones/tablets
+      if (window.innerWidth < 1024) {
+        setTimeout(() => {
+          const rightPanel = document.querySelector('.lg\\:col-span-8');
+          if (rightPanel) {
+            const headerOffset = 85;
+            const elementPosition = rightPanel.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+          }
+        }, 50);
+      }
+    }
+
+    // Accordion Toggle logic
+    function toggleAccordion(id) {
+      const content = document.getElementById(id);
+      const icon = document.getElementById(`icon-${id}`);
+      
+      if (content.classList.contains('open')) {
+        content.classList.remove('open');
+        if (icon) icon.className = 'fa-solid fa-circle-chevron-down text-slate-400 transition-transform duration-200 text-lg';
+      } else {
+        content.classList.add('open');
+        if (icon) icon.className = 'fa-solid fa-circle-chevron-up text-indigo-600 dark:text-indigo-400 transition-transform duration-200 text-lg';
+      }
+    }
+
+    function toggleAllAccordions(shouldOpen) {
+      const activeCards = document.querySelectorAll('.song-card:not(.hidden)');
+      activeCards.forEach(card => {
+        const content = card.querySelector('.accordion-content');
+        const icon = card.querySelector('.fa-solid[id^="icon-"]');
+        if (shouldOpen) {
+          content.classList.add('open');
+          if (icon) icon.className = 'fa-solid fa-circle-chevron-up text-indigo-600 dark:text-indigo-400 transition-transform duration-200 text-lg';
+        } else {
+          content.classList.remove('open');
+          if (icon) icon.className = 'fa-solid fa-circle-chevron-down text-slate-400 transition-transform duration-200 text-lg';
+        }
+      });
+    }
+
+    // Search lyrics / filter algorithm
+    function searchLyrics() {
+      const query = document.getElementById('lyrics-search').value.toLowerCase().trim();
+      const songCards = document.querySelectorAll('.song-card');
+      const resetBtn = document.getElementById('reset-filter-btn');
+
+      if (query === '') {
+        resetBtn.classList.add('hidden');
+        selectProgramItem(currentFilter);
+        return;
+      }
+
+      resetBtn.classList.remove('hidden');
+      document.getElementById('current-block-title').textContent = `Search results for "${query}"`;
+      document.getElementById('songs-count-badge').classList.add('hidden');
+      document.getElementById('editable-panel').classList.add('hidden');
+
+      let matches = 0;
+
+      songCards.forEach(card => {
+        const songText = card.textContent.toLowerCase();
+        if (songText.includes(query)) {
+          card.classList.remove('hidden');
+          const content = card.querySelector('.accordion-content');
+          const icon = card.querySelector('.fa-solid[id^="icon-"]');
+          content.classList.add('open'); 
+          if (icon) icon.className = 'fa-solid fa-circle-chevron-up text-indigo-600 dark:text-indigo-400 transition-transform duration-200 text-lg';
+          matches++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    function resetFilters() {
+      document.getElementById('lyrics-search').value = '';
+      selectProgramItem('spiritual');
+    }
+
+    // Initialize View on Window Load
+    window.onload = function() {
+      selectProgramItem('spiritual');
+    }
+  </script>
+</body>
+</html>
